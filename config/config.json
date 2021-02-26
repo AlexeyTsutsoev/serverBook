@@ -1,0 +1,10 @@
+{
+  "db": {
+    "username": "fusion",
+    "password": "fusion",
+    "database": "bstore",
+    "host": "127.0.0.1",
+    "dialect": "postgres",
+    "logging": false
+  }
+}

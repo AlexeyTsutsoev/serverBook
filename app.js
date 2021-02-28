@@ -10,31 +10,12 @@ const authRouter = require("./routes/auth");
 
 const app = express();
 
-app.use(bodyParser.urlencoded({ extended: true }));
-app.use(bodyParser.json());
-
-const tempUsers = JSON.parse(fs.readFileSync("tempusers.json", "utf-8"));
-
 app.use(express.json());
-
 app.use("/auth", authRouter);
-app.use("/books", bookRouter);
 
 app.get("/", (request, response) => {
   console.log(users.name);
   response.sendFile(__dirname + "/signPage.html");
-});
-
-app.post("/", jsonParser, (request, response) => {
-  for (let i = 0; i < tempUsers.length; i++) {
-    if (
-      tempUsers[i].name === request.body.name &&
-      tempUsers[i].password === request.body.password
-    ) {
-      console.log("sign in!");
-      break;
-    }
-  }
 });
 
 app.listen(8080, (err) => {

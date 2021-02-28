@@ -3,30 +3,24 @@ module.exports = {
   up: async (queryInterface, Sequelize) => {
     await queryInterface.createTable("books", {
       id: {
+        type: Sequelize.INTEGER,
+        primaryKey: true,
         allowNull: false,
         autoIncrement: true,
-        primaryKey: true,
-        type: Sequelize.INTEGER,
-      },
-      id: {
-        type: Sequelize.INTEGER,
       },
       name: {
         type: Sequelize.STRING,
+        allowNull: false,
       },
-      author: {
+      author_id: {
         type: Sequelize.INTEGER,
-        // references: {
-        //   model: 'authors',
-        //   key: id
-        // }
+        allowNull: false,
       },
-      publisher: {
+      publisher_id: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
-      category: {
-        type: Sequelize.INTEGER,
-      },
+      category_id: Sequelize.INTEGER,
       discription: {
         type: Sequelize.STRING,
       },
@@ -35,6 +29,7 @@ module.exports = {
       },
       price: {
         type: Sequelize.INTEGER,
+        allowNull: false,
       },
       createdAt: {
         allowNull: false,

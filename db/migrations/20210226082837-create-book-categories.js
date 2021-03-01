@@ -11,10 +11,18 @@ module.exports = {
       book_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "book",
+          key: "id",
+        },
       },
       category_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "categories",
+          key: "id",
+        },
       },
       createdAt: {
         allowNull: false,

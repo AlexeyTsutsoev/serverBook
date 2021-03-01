@@ -10,7 +10,7 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       authors.hasMany(models.books, {
-        foreignKey: "id",
+        foreignKey: "author_id",
         onDelete: "CASCADE",
       });
     }

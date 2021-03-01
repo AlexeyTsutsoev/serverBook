@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       publishers.hasMany(models.books, {
-        foreignKey: "id",
+        foreignKey: "publisher_id",
         onDelete: "CASCADE",
       });
     }

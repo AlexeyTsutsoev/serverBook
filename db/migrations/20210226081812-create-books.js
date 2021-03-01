@@ -15,10 +15,18 @@ module.exports = {
       author_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "authors",
+          key: "id",
+        },
       },
       publisher_id: {
         type: Sequelize.INTEGER,
         allowNull: false,
+        references: {
+          model: "publishers",
+          key: "id",
+        },
       },
       category_id: Sequelize.INTEGER,
       discription: {

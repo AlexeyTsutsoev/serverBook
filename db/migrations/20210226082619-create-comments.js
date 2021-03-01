@@ -10,9 +10,17 @@ module.exports = {
       },
       author_id: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "users",
+          key: "id",
+        },
       },
       book_id: {
         type: Sequelize.INTEGER,
+        references: {
+          model: "books",
+          key: "id",
+        },
       },
       text: {
         type: Sequelize.STRING,

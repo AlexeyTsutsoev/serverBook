@@ -10,26 +10,28 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       books.belongsTo(models.authors, {
-        foreignKey: "id",
+        as: "author",
+        foreignKey: "author_id",
       });
 
       books.belongsTo(models.publishers, {
-        foreignKey: "id",
+        as: "publisher",
+        foreignKey: "publisher_id",
       });
 
       books.belongsToMany(models.categories, {
         through: "bookcategories",
-        foreignKey: "id",
+        foreignKey: "book_id",
       });
 
       books.belongsToMany(models.users, {
         through: "comments",
-        foreignKey: "id",
+        foreignKey: "book_id",
       });
 
       books.belongsToMany(models.users, {
         through: "favoritesbook",
-        foreignKey: "id",
+        foreignKey: "book_id",
       });
     }
   }

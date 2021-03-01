@@ -3,16 +3,9 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const { request, response } = require("express");
 const config = require("../config");
-// const { validationResult } = require("express-validator");
 
 const signUp = async (request, response) => {
   try {
-    // const valErrors = validationResult(request);
-
-    // if (!valErrors.isEmpty()) {
-    //   return response.status(400).json({ errors: valErrors.errors });
-    // }
-
     const { name, email, password, phone } = request.body;
 
     const existingUser = await db.users.findOne({
@@ -34,7 +27,7 @@ const signUp = async (request, response) => {
       phone,
       password: hashPassword,
     });
-    return response.json({ message: "User created" });
+    return response.status(201).json({ message: "User created" });
   } catch (err) {
     console.log("reg error", err);
     response.send({ message: "Error on server" });
@@ -43,34 +36,42 @@ const signUp = async (request, response) => {
 
 const signIn = async (request, response) => {
   try {
-    //validator from middleware
-
     const { email, password } = request.body;
 
     const candidate = await db.users.findOne({
       where: {
-        email: request.body.email,
+        email,
       },
     });
 
     if (!candidate) {
-      return response.status(400).json({ message: "Не корректные данные" });
+      return response
+        .status(400)
+        .json({ message: "Нет пользователя с такой почтой" });
     }
 
     const isMatchPass = await bcryptjs.compare(password, candidate.password);
 
     if (!isMatchPass) {
-      return response.status(400).json({ message: "Не корректные данные" });
+      return response.status(400).json({ message: "Пароли не совпадают" });
     }
 
     const token = jwt.sign({ userId: candidate.id }, config.jwt.secret, {
       expiresIn: config.jwt.expiresIn,
     });
 
-    return response.json({ token, userID: candidate.id });
+    return response.status(201).json({
+      token,
+      user: {
+        id: candidate.id,
+        name: candidate.name,
+        email: candidate.email,
+        avatar: candidate.avatar,
+      },
+    });
   } catch (err) {
     console.log("reg error", err);
-    response.send({ message: "Error on server" });
+    response.status(500).send({ message: "Error on server" });
   }
 };
 

@@ -12,7 +12,7 @@ module.exports = (sequelize, DataTypes) => {
 
       categories.belongsToMany(models.books, {
         through: "bookcategories",
-        foreignKey: "category_id",
+        foreignKey: "id",
       });
     }
   }

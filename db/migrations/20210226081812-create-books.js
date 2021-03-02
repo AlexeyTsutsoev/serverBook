@@ -28,7 +28,6 @@ module.exports = {
           key: "id",
         },
       },
-      category_id: Sequelize.INTEGER,
       discription: {
         type: Sequelize.STRING,
       },

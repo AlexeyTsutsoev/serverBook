@@ -53,7 +53,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.INTEGER,
         allowNull: false,
       },
-      category_id: DataTypes.INTEGER,
       discription: {
         type: DataTypes.STRING,
       },

@@ -51,6 +51,8 @@ const signIn = async (request, response) => {
 
     const isMatchPass = await bcryptjs.compare(password, candidate.password);
 
+    console.log("match check", isMatchPass); //!!!!
+
     if (!isMatchPass) {
       return response.status(400).json({ message: "Пароли не совпадают" });
     }

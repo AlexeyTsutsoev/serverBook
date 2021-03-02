@@ -10,11 +10,11 @@ module.exports = (sequelize, DataTypes) => {
     static associate(models) {
       // define association here
       books.belongsTo(models.authors, {
-        foreignKey: "author_id",
+        foreignKey: "id",
       });
 
       books.belongsTo(models.publishers, {
-        foreignKey: "publisher_id",
+        foreignKey: "id",
       });
 
       books.belongsToMany(models.categories, {
@@ -22,8 +22,8 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "book_id",
       });
 
-      books.belongsToMany(models.users, {
-        through: "comments",
+      books.hasMany(models.comments, {
+        // as: 'comments',
         foreignKey: "book_id",
       });
 
@@ -45,14 +45,14 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      author_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
-      publisher_id: {
-        type: DataTypes.INTEGER,
-        allowNull: false,
-      },
+      // author_id: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      // },
+      // publisher_id: {
+      //   type: DataTypes.INTEGER,
+      //   allowNull: false,
+      // },
       discription: {
         type: DataTypes.STRING,
       },

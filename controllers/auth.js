@@ -1,7 +1,6 @@
-const db = require("../db/models");
 const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
-const { request, response } = require("express");
+const db = require("../db/models");
 const config = require("../config");
 
 const signUp = async (request, response) => {
@@ -21,7 +20,7 @@ const signUp = async (request, response) => {
 
     const hashPassword = await bcryptjs.hash(password, 10);
 
-    const newUser = await db.users.create({
+    await db.users.create({
       name,
       email,
       phone,
@@ -75,7 +74,37 @@ const signIn = async (request, response) => {
   }
 };
 
+const checkUser = async (request, response) => {
+  try {
+    const user = await db.users.findOne({ where: { id: request.user.userId } });
+    console.log(user);
+    if (!user) {
+      return response.status(401).json({
+        message: "invalid token",
+      });
+    }
+
+    const token = jwt.sign({ userId: user.id }, config.jwt.secret, {
+      expiresIn: config.jwt.expiresIn,
+    });
+
+    return response.status(201).json({
+      token,
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    });
+  } catch (err) {
+    console.log("auth error", err);
+    response.status(500).send({ message: "Error on server" });
+  }
+};
+
 module.exports = {
   signUp,
   signIn,
+  checkUser,
 };

@@ -78,11 +78,10 @@ const signIn = async (request, response) => {
 
 const checkUser = async (request, response) => {
   try {
-    const user = await db.users.findOne({ where: { id: request.user.userId } });
-    console.log(user);
+    const user = await db.users.findByPk(request.user.userId);
     if (!user) {
-      return response.status(401).json({
-        message: "invalid token",
+      return response.status(404).json({
+        message: "There is no such user",
       });
     }
 

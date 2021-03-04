@@ -2,6 +2,7 @@ const bcryptjs = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const db = require("../db/models");
 const config = require("../config");
+const createTokensPair = require("../utils");
 
 const signUp = async (request, response) => {
   try {
@@ -57,9 +58,11 @@ const signIn = async (request, response) => {
       return response.status(400).json({ message: "Пароли не совпадают" });
     }
 
-    const token = jwt.sign({ userId: candidate.id }, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn,
-    });
+    // const token = jwt.sign({ userId: candidate.id }, config.jwt.secret, {
+    //   expiresIn: config.jwt.accessTokenExpiresIn,
+    // });
+
+    const token = createTokensPair(candidate);
 
     return response.status(201).json({
       token,

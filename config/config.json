@@ -10,7 +10,8 @@
 
   "jwt": {
     "secret": "secret key for JWT",
-    "expiresIn": "1h"
+    "accessTokenExpiresIn": 120,
+    "refreshTokenExpiresIn": "1h"
   },
 
   "cors": {

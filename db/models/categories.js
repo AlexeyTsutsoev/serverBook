@@ -11,7 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
 
       categories.belongsToMany(models.books, {
-        through: "bookcategories",
+        through: "bookCategories",
         foreignKey: "category_id",
       });
     }

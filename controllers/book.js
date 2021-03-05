@@ -1,4 +1,6 @@
+const Sequelize = require("sequelize");
 const db = require("../db/models");
+const Op = Sequelize.Op;
 
 const getPagination = (page, size) => {
   const DEFAULT_LIMIT = 6;
@@ -24,28 +26,40 @@ const makeFilter = (query) => {
 
   const where = {};
   if (query.authors) {
-    const authorsString = query.authors.split(",");
-    const authorsNumber = authorsString.map((i) => parseInt(i));
-    where.author_id = authorsNumber;
+    const authorsArrayOfString = query.authors;
+    const authorsArrayOfNumber = authorsArrayOfString.map((i) => parseInt(i));
+    where.author_id = authorsArrayOfNumber;
   }
   if (query.publishers) {
-    const publishersString = query.publishers.split(",");
-    const publishersNumber = publishersString.map((i) => parseInt(i));
-    where.publisher_id = publishersNumber;
+    const publishersArrayOfString = query.publishers;
+    const publishersArrayOfNumber = publishersArrayOfString.map((i) =>
+      parseInt(i)
+    );
+    where.publisher_id = publishersArrayOfNumber;
   }
   if (query.categories) {
-    const categoriesString = query.categories.split(",");
-    const categoriesNumber = categoriesString.map((i) => parseInt(i));
+    const categoriesArrayOfString = query.categories;
+    const categoriesArrayOfNumber = categoriesArrayOfString.map((i) =>
+      parseInt(i)
+    );
     filter.include.push({
       model: db.categories,
       required: true,
       through: {
         model: db.bookCategories,
         where: {
-          category_id: categoriesNumber,
+          category_id: categoriesArrayOfNumber,
         },
       },
     });
+  }
+
+  if (query.prices) {
+    const pricesArrayOfString = query.prices;
+    const pricesArrayOfNumber = pricesArrayOfString.map((i) => parseInt(i));
+    where.price = {
+      [Op.between]: [pricesArrayOfNumber[0], pricesArrayOfNumber[1]],
+    };
   }
 
   const { limit, offset } = getPagination(query.page, query.limit);

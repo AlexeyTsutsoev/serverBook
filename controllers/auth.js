@@ -88,9 +88,10 @@ const checkUser = async (request, response) => {
       });
     }
 
-    const token = jwt.sign({ userId: user.id }, config.jwt.secret, {
-      expiresIn: config.jwt.expiresIn,
-    });
+    // const token = jwt.sign({ userId: user.id }, config.jwt.secret, {
+    //   expiresIn: config.jwt.expiresIn,
+    // });
+    const token = createTokensPair(user);
 
     return response.status(201).json({
       token,

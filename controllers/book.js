@@ -76,20 +76,6 @@ const getBooks = async (request, response) => {
     const filter = makeFilter(query);
 
     const books = await db.books.findAndCountAll(filter);
-    //   {
-    //   include: [
-    //     {
-    //       model: db.categories,
-
-    //       through: {
-    //         model: db.bookCategories,
-    //         where: {
-    //           category_id: [1, 3],
-    //         },
-    //       },
-    //     },
-    //   ],
-    // }
 
     return response.status(201).json(books);
   } catch (err) {
@@ -98,6 +84,21 @@ const getBooks = async (request, response) => {
   }
 };
 
+const getOneBook = async (request, response) => {
+  console.log("check getter");
+  console.log(request.params);
+  try {
+    const book = await db.books.findByPk(parseInt(request.params.id));
+    if (book) {
+      return response.status(201).json(book);
+    }
+  } catch (err) {
+    console.log("error", err);
+    response.status(500).send({ message: "Error on server" });
+  }
+};
+
 module.exports = {
   getBooks,
+  getOneBook,
 };

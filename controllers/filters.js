@@ -37,4 +37,20 @@ const getAllCategories = async (request, response) => {
   }
 };
 
-module.exports = { getAllAuthors, getAllPublishers, getAllCategories };
+const getPrices = async (request, response) => {
+  try {
+    const minPrice = await db.books.min("price");
+    const maxPrice = await db.books.max("price");
+    return response.status(201).json({ minPrice, maxPrice });
+  } catch (err) {
+    console.log("error", err);
+    response.status(500).send({ message: "Error on server" });
+  }
+};
+
+module.exports = {
+  getAllAuthors,
+  getAllPublishers,
+  getAllCategories,
+  getPrices,
+};

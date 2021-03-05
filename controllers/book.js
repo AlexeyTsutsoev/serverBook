@@ -88,7 +88,27 @@ const getOneBook = async (request, response) => {
   console.log("check getter");
   console.log(request.params);
   try {
-    const book = await db.books.findByPk(parseInt(request.params.id));
+    const book = await db.books.findByPk(parseInt(request.params.id), {
+      include: [
+        {
+          model: db.authors,
+          attributes: ["id", "name"],
+        },
+        {
+          model: db.publishers,
+          attributes: ["id", "name"],
+        },
+        {
+          model: db.categories,
+          attributes: ["id", "name"],
+          through: {
+            model: db.bookCategories,
+            attributes: [],
+          },
+        },
+      ],
+      attributes: ["id", "name", "price", "discription", "cover"],
+    });
     if (book) {
       return response.status(201).json(book);
     }

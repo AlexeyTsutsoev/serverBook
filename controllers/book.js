@@ -85,8 +85,6 @@ const getBooks = async (request, response) => {
 };
 
 const getOneBook = async (request, response) => {
-  console.log("check getter");
-  console.log(request.params);
   try {
     const book = await db.books.findByPk(parseInt(request.params.id), {
       include: [

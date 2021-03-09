@@ -1,7 +1,5 @@
 const bcryptjs = require("bcryptjs");
-const jwt = require("jsonwebtoken");
 const db = require("../db/models");
-const config = require("../config");
 const createTokensPair = require("../utils");
 
 const signUp = async (request, response) => {
@@ -58,10 +56,6 @@ const signIn = async (request, response) => {
       return response.status(400).json({ message: "Пароли не совпадают" });
     }
 
-    // const token = jwt.sign({ userId: candidate.id }, config.jwt.secret, {
-    //   expiresIn: config.jwt.accessTokenExpiresIn,
-    // });
-
     const token = createTokensPair(candidate);
 
     return response.status(201).json({
@@ -88,9 +82,30 @@ const checkUser = async (request, response) => {
       });
     }
 
-    // const token = jwt.sign({ userId: user.id }, config.jwt.secret, {
-    //   expiresIn: config.jwt.expiresIn,
-    // });
+    return response.status(201).json({
+      user: {
+        id: user.id,
+        name: user.name,
+        email: user.email,
+        avatar: user.avatar,
+      },
+    });
+  } catch (err) {
+    console.log("auth error", err);
+    response.status(500).send({ message: "Error on server" });
+  }
+};
+
+const refreshToken = async (request, response) => {
+  try {
+    console.log(request.user);
+    const user = await db.users.findByPk(request.user.userId);
+    if (!user) {
+      return response.status(404).json({
+        message: "There is no such user",
+      });
+    }
+
     const token = createTokensPair(user);
 
     return response.status(201).json({
@@ -112,4 +127,5 @@ module.exports = {
   signUp,
   signIn,
   checkUser,
+  refreshToken,
 };

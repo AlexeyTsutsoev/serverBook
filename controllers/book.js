@@ -10,8 +10,13 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 
-const makeFilter = (query) => {
-  // &sort=price_asc
+const makeFilter = (query, userId) => {
+  console.log(`key- ${query.keyword}`);
+  console.log(query.authors);
+  console.log(query.publishers);
+  console.log(query.categories);
+  console.log(query.prices);
+
   const filter = {
     include: [
       {
@@ -21,8 +26,17 @@ const makeFilter = (query) => {
         model: db.publishers,
       },
     ],
-    // order: ["id"],
   };
+
+  if (userId) {
+    filter.include.push({
+      model: db.users,
+      through: "favoritesbook",
+      where: {
+        userId,
+      },
+    });
+  }
 
   const where = {};
   if (query.authors) {
@@ -60,6 +74,10 @@ const makeFilter = (query) => {
     where.price = {
       [Op.between]: [pricesArrayOfNumber[0], pricesArrayOfNumber[1]],
     };
+  }
+
+  if (query.keyword) {
+    where.name = { [Op.iLike]: `%${query.keyword}%` };
   }
 
   const { limit, offset } = getPagination(query.page, query.limit);

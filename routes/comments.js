@@ -6,7 +6,7 @@ const router = express.Router();
 
 router.get("/", commentsCtrl.getComments);
 
-//router.use(isAuthenticated);
+router.use(isAuthenticated);
 router.post("/create", commentsCtrl.createComment);
 router.put("/update/:id", commentsCtrl.updateComment);
 router.delete("/delete/:id", commentsCtrl.deleteComment);

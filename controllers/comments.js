@@ -15,6 +15,7 @@ const getComments = async (request, response) => {
         },
       ],
       attributes: ["id", "author_id", "book_id", "text"],
+      order: ["createdAt"],
     });
 
     return response.status(201).json(comments);
@@ -43,7 +44,7 @@ const createComment = async (request, response) => {
   }
 };
 
-const updateComment = async (request, response, next) => {
+const updateComment = async (request, response) => {
   try {
     const id = request.params.id;
     const post = await db.comments.findByPk(id);
@@ -70,7 +71,6 @@ const updateComment = async (request, response, next) => {
 };
 
 const deleteComment = async (request, response) => {
-  console.log("test");
   try {
     const { id } = request.params;
     const post = await db.comments.findByPk(id);

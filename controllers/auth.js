@@ -1,6 +1,7 @@
 const bcryptjs = require("bcryptjs");
 const db = require("../db/models");
 const createTokensPair = require("../utils");
+const ADMIN_EMAIL = "admin.com";
 
 const signUp = async (request, response) => {
   try {
@@ -17,6 +18,8 @@ const signUp = async (request, response) => {
         .json({ message: `user with ${email} alredy exist` });
     }
 
+    const isAdmin = email.split("@")[1] === ADMIN_EMAIL ? true : false;
+
     const hashPassword = await bcryptjs.hash(password, 10);
 
     await db.users.create({
@@ -24,6 +27,7 @@ const signUp = async (request, response) => {
       email,
       phone,
       password: hashPassword,
+      isAdmin,
     });
     return response.status(201).json({ message: "User created" });
   } catch (err) {
@@ -65,6 +69,7 @@ const signIn = async (request, response) => {
         name: candidate.name,
         email: candidate.email,
         avatar: candidate.avatar,
+        isAdmin: candidate.isAdmin,
       },
     });
   } catch (err) {
@@ -82,12 +87,15 @@ const checkUser = async (request, response) => {
       });
     }
 
+    console.log(user.isAdmin);
+
     return response.status(201).json({
       user: {
         id: user.id,
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        isAdmin: user.isAdmin,
       },
     });
   } catch (err) {
@@ -115,6 +123,7 @@ const refreshToken = async (request, response) => {
         name: user.name,
         email: user.email,
         avatar: user.avatar,
+        isAdmin: user.isAdmin,
       },
     });
   } catch (err) {

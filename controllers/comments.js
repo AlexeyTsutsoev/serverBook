@@ -50,7 +50,7 @@ const updateComment = async (request, response) => {
     const id = request.params.id;
     const post = await db.comments.findByPk(id);
     if (!post) {
-      throw new CustomError("comment does not exist", 404);
+      throw new CustomError("comment does not exist", 400);
     }
 
     const newValue = request.body.text;
@@ -76,7 +76,7 @@ const deleteComment = async (request, response) => {
     const { id } = request.params;
     const post = await db.comments.findByPk(id);
     if (!post) {
-      throw new CustomError("comment does not exist", 404);
+      throw new CustomError("comment does not exist", 400);
     }
 
     await db.comments.destroy({

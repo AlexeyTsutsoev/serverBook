@@ -16,7 +16,6 @@ const isAuthorized = (request, response, next) => {
     const token = request.headers.authorization.split(" ")[1];
 
     const decodedToken = jwt.verify(token, config.jwt.secret);
-    console.log("decodedToken", decodedToken);
     request.user = decodedToken;
     next();
   } catch (err) {

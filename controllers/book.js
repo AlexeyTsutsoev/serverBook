@@ -1,6 +1,7 @@
 const Sequelize = require("sequelize");
 const db = require("../db/models");
 const Op = Sequelize.Op;
+const { CustomError } = require("../utils/CustomError");
 
 const getPagination = (page, size) => {
   const DEFAULT_LIMIT = 6;
@@ -128,7 +129,52 @@ const getOneBook = async (request, response) => {
   }
 };
 
+const addNewBook = async (request, response) => {
+  try {
+    const {
+      name,
+      author,
+      publisher,
+      discription,
+      cover,
+      price,
+      categories,
+    } = request.body;
+
+    if (!(name && author && publisher && discription && price)) {
+      throw new CustomError("invalid parametrs", 400);
+    }
+
+    const candidate = await db.books.findOne({ where: { name } });
+
+    if (candidate) {
+      throw new CustomError("book with this name alredy exist", 400);
+    }
+    const book = await db.books.create({
+      name,
+      author_id: author,
+      publisher_id: publisher,
+      discription,
+      cover,
+      price,
+    });
+
+    for (let i = 0; i < categories.length; i++) {
+      await db.bookCategories.create({
+        book_id: book.id,
+        category_id: categories[i],
+      });
+    }
+
+    return response.status(201).json({ message: "book created" });
+  } catch (err) {
+    console.log("error", err);
+    response.status(500).send({ message: "Error on server" });
+  }
+};
+
 module.exports = {
   getBooks,
   getOneBook,
+  addNewBook,
 };

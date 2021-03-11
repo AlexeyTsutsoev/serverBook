@@ -11,12 +11,6 @@ const getPagination = (page, size) => {
 };
 
 const makeFilter = (query, userId) => {
-  console.log(`key- ${query.keyword}`);
-  console.log(query.authors);
-  console.log(query.publishers);
-  console.log(query.categories);
-  console.log(query.prices);
-
   const filter = {
     include: [
       {

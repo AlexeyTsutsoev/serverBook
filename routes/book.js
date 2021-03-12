@@ -6,7 +6,6 @@ const router = express.Router();
 
 router.get("/", bookCtrl.getBooks);
 router.get("/:id", bookCtrl.getOneBook);
-router.use(isAdmin);
-router.post("/add", bookCtrl.addNewBook);
+router.post("/add", isAdmin, bookCtrl.addNewBook);
 
 module.exports = router;

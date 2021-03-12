@@ -36,10 +36,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         allowNull: false,
       },
-      isAdmin: {
-        type: DataTypes.BOOLEAN,
+      role: {
+        type: DataTypes.ENUM("user", "admin", "manager"),
         allowNull: false,
-        defaultValue: false,
+        defaultValue: "user",
       },
       avatar: DataTypes.STRING,
       email: DataTypes.STRING,

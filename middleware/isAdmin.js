@@ -2,19 +2,17 @@ const db = require("../db/models");
 
 const isAdmin = async (request, response, next) => {
   try {
-    // const isAdmin = request.headers.isAdmin;  !!!!!!!!!Can i do like this?!!!!!!!!!!!!!!!!
     const userId = request.headers.userid;
     const user = await db.users.findByPk(userId);
-    if (user.isAdmin) {
-      next();
-    } else {
-      return response
-        .status(401)
-        .json({ message: "You do not have access rights" });
+    if (user.role === "admin") {
+      return next();
     }
+    return response
+      .status(403)
+      .json({ message: "You do not have access rights" });
   } catch (err) {
     console.log(err);
-    return response.status(401).json({
+    return response.status(500).json({
       message: `error on server: ${err}`,
       type: err.name || "Common",
     });
@@ -22,3 +20,11 @@ const isAdmin = async (request, response, next) => {
 };
 
 module.exports = isAdmin;
+
+/*
+400
+401
+403
+404
+500
+*/

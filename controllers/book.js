@@ -11,7 +11,7 @@ const getPagination = (page, size) => {
   return { limit, offset };
 };
 
-const makeFilter = (query, userId) => {
+const makeFilter = (query) => {
   const filter = {
     include: [
       {
@@ -22,16 +22,6 @@ const makeFilter = (query, userId) => {
       },
     ],
   };
-
-  if (userId) {
-    filter.include.push({
-      model: db.users,
-      through: "favoritesbook",
-      where: {
-        userId,
-      },
-    });
-  }
 
   const where = {};
   if (query.authors) {
@@ -133,15 +123,15 @@ const addNewBook = async (request, response) => {
   try {
     const {
       name,
-      author,
-      publisher,
+      authorId,
+      publisherId,
       discription,
       cover,
       price,
       categories,
     } = request.body;
 
-    if (!(name && author && publisher && discription && price)) {
+    if (!(name && authorId && publisherId && discription && price)) {
       throw new CustomError("invalid parametrs", 400);
     }
 
@@ -152,8 +142,8 @@ const addNewBook = async (request, response) => {
     }
     const book = await db.books.create({
       name,
-      author_id: author,
-      publisher_id: publisher,
+      author_id: authorId,
+      publisher_id: publisherId,
       discription,
       cover,
       price,

@@ -27,7 +27,7 @@ const router = express.Router();
 
 router.post("/sign-up", validate(authVal.signUp), authCtrl.signUp);
 router.post("/sign-in", validate(authVal.signIn), authCtrl.signIn);
-router.post("/refresh", isAuthenticated, authCtrl.refreshToken);
+router.post("/refresh", authCtrl.refreshToken);
 router.get("/me", isAuthenticated, authCtrl.checkUser);
 router.post(
   "/avatar",

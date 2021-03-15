@@ -115,8 +115,7 @@ const checkUser = async (request, response) => {
 
 const refreshToken = async (request, response) => {
   try {
-    console.log("from refresh", request.body.user.id);
-    const user = await db.users.findByPk(request.body.user.userId);
+    const user = await db.users.findByPk(request.body.user.id);
     if (!user) {
       return response.status(404).json({
         message: "There is no such user",

@@ -4,22 +4,7 @@ const authCtrl = require("../controllers/auth");
 const validate = require("../validators");
 const authVal = require("../validators/auth");
 const isAuthenticated = require("../middleware/isAuthorized");
-
-// const storage = multer.diskStorage({
-//   destination: "./public/avatars",
-//   filename: (request, file, callBack) => {
-//     let extention;
-//     switch (file.mimetype) {
-//       case "image/png":
-//         extention = ".png";
-//         break;
-//       case "image/jpeg":
-//         extention = ".jpeg";
-//         break;
-//     }
-//     callBack(null, file.originalname + extention);
-//   },
-// });
+const test = require("../middleware/test");
 
 const upload = multer({ dest: "./public/avatars" });
 
@@ -27,12 +12,14 @@ const router = express.Router();
 
 router.post("/sign-up", validate(authVal.signUp), authCtrl.signUp);
 router.post("/sign-in", validate(authVal.signIn), authCtrl.signIn);
-router.post("/refresh", authCtrl.refreshToken);
 router.get("/me", isAuthenticated, authCtrl.checkUser);
+router.post("/refresh", authCtrl.refreshToken);
 router.post(
   "/avatar",
   isAuthenticated,
-  upload.single("formdata"),
+  test,
+  upload.single("avatar"),
+  test,
   authCtrl.ChangeAvatar
 );
 

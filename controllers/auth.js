@@ -115,7 +115,7 @@ const checkUser = async (request, response) => {
 
 const refreshToken = async (request, response) => {
   try {
-    console.log(request.user);
+    console.log("from refresh", request.body);
     const user = await db.users.findByPk(request.user.userId);
     if (!user) {
       return response.status(404).json({
@@ -141,9 +141,19 @@ const refreshToken = async (request, response) => {
   }
 };
 
+const ChangeAvatar = async (request, response) => {
+  console.log("start avatar controller");
+  let filedata = request.file;
+  console.log("avatar controller", filedata);
+  if (!filedata) {
+    response.status(500).send({ message: "Error on server" });
+  } else response.status(201).send({ message: "Файл загружен" });
+};
+
 module.exports = {
   signUp,
   signIn,
   checkUser,
   refreshToken,
+  ChangeAvatar,
 };

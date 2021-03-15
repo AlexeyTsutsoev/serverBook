@@ -10,7 +10,6 @@ const app = express();
 
 app.use(cors());
 app.use(express.json());
-
 app.use("/api/auth", authRouter);
 app.use("/api/filters", filtersRouter);
 app.use("/api/book", bookRouter);

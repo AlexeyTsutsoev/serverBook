@@ -1,3 +1,4 @@
+const config = require("../config");
 const Sequelize = require("sequelize");
 const db = require("../db/models");
 const Op = Sequelize.Op;
@@ -146,7 +147,7 @@ const addNewBook = async (request, response) => {
       author_id: authorId,
       publisher_id: publisherId,
       discription,
-      cover: filedata.path,
+      cover: `#{serverName}/${filedata.path}`,
       price,
     });
 

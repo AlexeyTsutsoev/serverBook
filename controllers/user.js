@@ -143,7 +143,7 @@ const ChangeAvatar = async (request, response) => {
   const userId = request.user.userId;
 
   await db.users.update(
-    { avatar: filedata.path },
+    { avatar: `#{serverName}/${filedata.path}` },
     {
       where: { id: userId },
     }

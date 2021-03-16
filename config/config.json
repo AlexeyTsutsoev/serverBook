@@ -24,5 +24,10 @@
 
   "cors": {
     "siteAdress": "http://localhost:3000"
+  },
+
+  "common": {
+    "port": "8080",
+    "serverName": "http://localhost:8080"
   }
 }

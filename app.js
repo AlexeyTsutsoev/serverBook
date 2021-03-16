@@ -5,11 +5,14 @@ const filtersRouter = require("./routes/filters");
 const bookRouter = require("./routes/book");
 const commentsRouter = require("./routes/comments");
 const favoritesRouter = require("./routes/favorites");
+const config = require("./config");
 
 const app = express();
+const port = config.common.port;
 
 app.use(cors());
 app.use(express.json());
+app.use(express.static(__dirname));
 app.use("/api/auth", authRouter);
 app.use("/api/filters", filtersRouter);
 app.use("/api/book", bookRouter);
@@ -20,10 +23,10 @@ app.use((err, req, res, next) => {
   res.status(statusCode).json({ message: err.message });
 });
 
-app.listen(8080, (err) => {
+app.listen(port, (err) => {
   if (err) {
     console.error("Server down", err);
     process.exit(1);
   }
-  console.log("we are running on 8080");
+  console.log(`we are running on ${port}`);
 });

@@ -2,7 +2,6 @@ const db = require("../db/models");
 
 const isAdmin = async (request, response, next) => {
   try {
-    console.log("is Admin MW-----", request.headers.userid);
     const userId = request.headers.userid;
     const user = await db.users.findByPk(userId);
     if (user.role === "admin") {
@@ -21,11 +20,3 @@ const isAdmin = async (request, response, next) => {
 };
 
 module.exports = isAdmin;
-
-/*
-400
-401
-403
-404
-500
-*/

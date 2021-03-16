@@ -43,7 +43,7 @@ const signUp = async (request, response) => {
     return response.status(201).json({ message: "User created" });
   } catch (err) {
     console.log("reg error", err);
-    response.send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -64,8 +64,6 @@ const signIn = async (request, response) => {
     }
 
     const isMatchPass = await bcryptjs.compare(password, candidate.password);
-
-    console.log("match check", isMatchPass); //!!!!
 
     if (!isMatchPass) {
       return response.status(400).json({ message: "Пароли не совпадают" });
@@ -136,15 +134,13 @@ const refreshToken = async (request, response) => {
     });
   } catch (err) {
     console.log("auth error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
 const ChangeAvatar = async (request, response) => {
   const filedata = request.file;
   const userId = request.user.userId;
-  console.log("avatar controller, user------------------", userId);
-  console.log("avatar controller, file------------------", filedata);
 
   await db.users.update(
     { avatar: filedata.path },

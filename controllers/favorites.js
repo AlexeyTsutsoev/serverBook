@@ -1,4 +1,5 @@
 const db = require("../db/models");
+const { CustomError } = require("../utils/CustomError");
 
 const getUsersFavoritesBooks = async (request, response) => {
   try {
@@ -31,7 +32,7 @@ const getUsersFavoritesBooks = async (request, response) => {
     return response.status(201).json({ favorites });
   } catch (err) {
     console.log(err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -47,7 +48,9 @@ const addToFavorites = async (request, response) => {
     });
 
     if (candidate) {
-      throw new Error({ message: "Данная книга уже добавлена в избранное" });
+      throw new CustomError({
+        message: "Данная книга уже добавлена в избранное",
+      });
     }
 
     await db.favoritesbook.create({
@@ -60,7 +63,7 @@ const addToFavorites = async (request, response) => {
     });
   } catch (err) {
     console.log(err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -76,7 +79,7 @@ const deleteFromFavorites = async (request, response) => {
     });
 
     if (!candidate) {
-      throw new Error({ message: "Данная книги нет в избранном" });
+      throw new CustomError({ message: "Данная книги нет в избранном" });
     }
 
     await db.favoritesbook.destroy({
@@ -91,7 +94,7 @@ const deleteFromFavorites = async (request, response) => {
     });
   } catch (err) {
     console.log(err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 

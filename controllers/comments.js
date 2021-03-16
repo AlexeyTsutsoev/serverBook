@@ -22,7 +22,7 @@ const getComments = async (request, response) => {
     return response.status(201).json(comments);
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -41,7 +41,7 @@ const createComment = async (request, response) => {
     return response.status(201).json({ message: "Комментарий отправлен" });
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -67,7 +67,7 @@ const updateComment = async (request, response) => {
     return response.status(201).json({ message: "Комментарий изменен" });
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -88,7 +88,7 @@ const deleteComment = async (request, response) => {
     return response.status(201).json({ message: "Комментарий удален" });
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 

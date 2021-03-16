@@ -83,7 +83,7 @@ const getBooks = async (request, response) => {
     return response.status(201).json(books);
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -115,15 +115,13 @@ const getOneBook = async (request, response) => {
     }
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
 const addNewBook = async (request, response) => {
   try {
     const filedata = request.file;
-
-    console.log("create new book controller-------------", filedata);
 
     const {
       name,
@@ -133,13 +131,6 @@ const addNewBook = async (request, response) => {
       price,
       categories,
     } = request.body;
-
-    console.log("name----", name);
-    console.log("author----", authorId);
-    console.log("publisher----", publisherId);
-    console.log("discription----", discription);
-    console.log("price----", price);
-    console.log("categories----", categories);
 
     if (!(name && authorId && publisherId && discription && price)) {
       throw new CustomError("invalid parametrs", 400);
@@ -160,7 +151,6 @@ const addNewBook = async (request, response) => {
     });
 
     const categoriesArr = categories.split(",");
-    console.log("arrp----------", categoriesArr);
 
     for (let i = 0; i < categoriesArr.length; i++) {
       await db.bookCategories.create({
@@ -172,7 +162,7 @@ const addNewBook = async (request, response) => {
     return response.status(201).json({ message: "book created" });
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 

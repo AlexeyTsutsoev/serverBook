@@ -9,7 +9,7 @@ const getAllAuthors = async (request, response) => {
     return response.status(201).json(authors);
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -21,7 +21,7 @@ const getAllPublishers = async (request, response) => {
     return response.status(201).json(publishers);
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -33,7 +33,7 @@ const getAllCategories = async (request, response) => {
     return response.status(201).json(categories);
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 
@@ -44,7 +44,7 @@ const getPrices = async (request, response) => {
     return response.status(201).json({ minPrice, maxPrice });
   } catch (err) {
     console.log("error", err);
-    response.status(500).send({ message: "Error on server" });
+    return response.status(500).send({ message: "Error on server" });
   }
 };
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-const authRouter = require("./routes/auth");
+const authRouter = require("./routes/user");
 const filtersRouter = require("./routes/filters");
 const bookRouter = require("./routes/book");
 const commentsRouter = require("./routes/comments");

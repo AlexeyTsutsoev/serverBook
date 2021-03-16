@@ -4,7 +4,6 @@ const authCtrl = require("../controllers/auth");
 const validate = require("../validators");
 const authVal = require("../validators/auth");
 const isAuthenticated = require("../middleware/isAuthorized");
-const test = require("../middleware/test");
 
 const upload = multer({ dest: "./public/avatars" });
 
@@ -17,9 +16,7 @@ router.post("/refresh", authCtrl.refreshToken);
 router.post(
   "/avatar",
   isAuthenticated,
-  test,
   upload.single("avatar"),
-  test,
   authCtrl.ChangeAvatar
 );
 

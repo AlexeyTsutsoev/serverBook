@@ -121,15 +121,25 @@ const getOneBook = async (request, response) => {
 
 const addNewBook = async (request, response) => {
   try {
+    const filedata = request.file;
+
+    console.log("create new book controller-------------", filedata);
+
     const {
       name,
       authorId,
       publisherId,
       discription,
-      cover,
       price,
       categories,
     } = request.body;
+
+    console.log("name----", name);
+    console.log("author----", authorId);
+    console.log("publisher----", publisherId);
+    console.log("discription----", discription);
+    console.log("price----", price);
+    console.log("categories----", categories);
 
     if (!(name && authorId && publisherId && discription && price)) {
       throw new CustomError("invalid parametrs", 400);
@@ -145,11 +155,14 @@ const addNewBook = async (request, response) => {
       author_id: authorId,
       publisher_id: publisherId,
       discription,
-      cover,
+      cover: filedata.path,
       price,
     });
 
-    for (let i = 0; i < categories.length; i++) {
+    const categoriesArr = categories.split(",");
+    console.log("arrp----------", categoriesArr);
+
+    for (let i = 0; i < categoriesArr.length; i++) {
       await db.bookCategories.create({
         book_id: book.id,
         category_id: categories[i],

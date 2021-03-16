@@ -141,12 +141,22 @@ const refreshToken = async (request, response) => {
 };
 
 const ChangeAvatar = async (request, response) => {
-  console.log("start avatar controller");
-  let filedata = request.file;
-  console.log("avatar controller", filedata);
+  const filedata = request.file;
+  const userId = request.user.userId;
+  console.log("avatar controller, user------------------", userId);
+  console.log("avatar controller, file------------------", filedata);
+
+  await db.users.update(
+    { avatar: filedata.path },
+    {
+      where: { id: userId },
+    }
+  );
+
   if (!filedata) {
-    response.status(500).send({ message: "Error on server" });
-  } else response.status(201).send({ message: "Файл загружен" });
+    return response.status(500).send({ message: "Error on server" });
+  }
+  return response.status(201).send({ message: "Файл загружен" });
 };
 
 module.exports = {

@@ -156,7 +156,7 @@ const addNewBook = async (request, response) => {
     for (let i = 0; i < categoriesArr.length; i++) {
       await db.bookCategories.create({
         book_id: book.id,
-        category_id: categories[i],
+        category_id: categoriesArr[i],
       });
     }
 

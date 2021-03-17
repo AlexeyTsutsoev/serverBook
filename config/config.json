@@ -28,6 +28,6 @@
 
   "common": {
     "port": "8080",
-    "serverName": "http://3.12.228.201/api/"
+    "serverName": "http://3.12.228.201/api"
   }
 }

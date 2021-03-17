@@ -1,4 +1,5 @@
 const bcryptjs = require("bcryptjs");
+const config = require("../config");
 const db = require("../db/models");
 const createTokensPair = require("../utils");
 const ADMIN_EMAIL = "admin.com";
@@ -143,7 +144,7 @@ const ChangeAvatar = async (request, response) => {
   const userId = request.user.userId;
 
   await db.users.update(
-    { avatar: `${serverName}/${filedata.path}` },
+    { avatar: `${config.common.serverName}/${filedata.path}` },
     {
       where: { id: userId },
     }

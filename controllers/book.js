@@ -147,7 +147,7 @@ const addNewBook = async (request, response) => {
       author_id: authorId,
       publisher_id: publisherId,
       discription,
-      cover: `${serverName}/${filedata.path}`,
+      cover: `${config.common.serverName}/${filedata.path}`,
       price,
     });
 

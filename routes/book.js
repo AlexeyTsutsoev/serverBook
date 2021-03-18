@@ -2,8 +2,9 @@ const express = require("express");
 const bookCtrl = require("../controllers/book");
 const isAdmin = require("../middleware/isAdmin");
 const multer = require("multer");
+const path = require("path");
 
-const upload = multer({ dest: "./public/covers" });
+const upload = multer({ dest: path.resolve(__dirname, "./public/covers") });
 
 const router = express.Router();
 

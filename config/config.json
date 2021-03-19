@@ -3,7 +3,7 @@
     "username": "fusion",
     "password": "fusion",
     "database": "bstore",
-    "host": "http://3.12.228.201",
+    "host": "3.12.228.201",
     "port": 5433,
     "dialect": "postgres",
     "logging": false
